@@ -71,18 +71,18 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
-(defun akash/find-life-org ()
+(defun akash/find-todo-org ()
   "Edit life.org"
   (interactive)
-  (find-file "~/Documents/pkm/life.org"))
+  (find-file "~/org/todo.org"))
 
 (defun akash/find-inbox-org ()
   "Edit inbox.org"
   (interactive)
-  (find-file "~/Documents/pkm/inbox.org"))
+  (find-file "~/org/inbox.org"))
 
 (global-set-key (kbd "C-x C-v") 'akash/find-init-file)
-(global-set-key (kbd "C-x ,") 'akash/find-life-org)
+(global-set-key (kbd "C-x ,") 'akash/find-todo-org)
 (global-set-key (kbd "C-x /") 'akash/find-inbox-org)
 
 
@@ -91,11 +91,6 @@
 (global-set-key (kbd "M-j") 'windmove-left)
 (global-set-key (kbd "M-k") 'windmove-down)
 (global-set-key (kbd "M-l") 'windmove-right)
-
-;;; PROJECT MANAGEMENT (I'm going to use project.el for a while)
-;; (use-package projectile
-;;   :config (projectile-mode +1)
-;;   :bind ("C-c p" . 'projectile-command-map))
 
 (defun akash/auto-remember-project ()
   "Auto-register the current project with project.el."
@@ -315,14 +310,6 @@
               (with-selected-frame frame
                 (when (derived-mode-p 'eat-mode)
                   (eat-semi-char-mode))))))
-
-(use-package claude-code-ide
-  :straight (:host github :repo "manzaltu/claude-code-ide.el")
-  :bind ("C-c '" . claude-code-ide-menu) ; Set your favorite keybinding
-  :config
-  (claude-code-ide-emacs-tools-setup)
-  (setq claude-code-ide-terminal-backend 'eat)) ; Optionally enable Emacs MCP tools
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
