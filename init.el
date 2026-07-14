@@ -230,6 +230,7 @@
 ;; org-mode configuration
 ;; Capture
 (setq org-directory "~/org")
+(load "~/.emacs.d/org-sync.el")
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "inbox.org")
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
