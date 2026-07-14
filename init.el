@@ -229,7 +229,7 @@
 
 ;; org-mode configuration
 ;; Capture
-(setq org-directory "~/Documents/pkm")
+(setq org-directory "~/org")
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "inbox.org")
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
