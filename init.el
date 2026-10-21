@@ -173,9 +173,17 @@
 (use-package web-mode
   :mode ("\\.html\\'" "\\.css\\'"))
 
+;; Metal shaders: c++-mode + Metal keywords, flymake via `xcrun metal'
+(load "~/.emacs.d/metal-mode.el")
+
+(defun akash/eglot-ensure-unless-metal ()
+  "metal-mode derives from c++-mode, but clangd can't parse Metal."
+  (unless (derived-mode-p 'metal-mode)
+    (eglot-ensure)))
+
 (use-package eglot
   :hook ((c-mode . eglot-ensure)
-         (c++-mode . eglot-ensure)
+         (c++-mode . akash/eglot-ensure-unless-metal)
          (python-mode . eglot-ensure)
          (js2-mode . eglot-ensure)
          (web-mode . eglot-ensure)
