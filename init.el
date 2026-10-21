@@ -176,14 +176,18 @@
 ;; Metal shaders: c++-mode + Metal keywords, flymake via `xcrun metal'
 (load "~/.emacs.d/metal-mode.el")
 
-(defun akash/eglot-ensure-unless-metal ()
-  "metal-mode derives from c++-mode, but clangd can't parse Metal."
-  (unless (derived-mode-p 'metal-mode)
+(defun akash/eglot-ensure-cpp ()
+  "eglot for C++, and for Metal only when metal-analyzer is installed.
+metal-mode derives from c++-mode so this runs there too; without
+metal-analyzer, metal-mode's own `xcrun metal' flymake check is used."
+  (if (derived-mode-p 'metal-mode)
+      (when (executable-find "metal-analyzer")
+        (eglot-ensure))
     (eglot-ensure)))
 
 (use-package eglot
   :hook ((c-mode . eglot-ensure)
-         (c++-mode . akash/eglot-ensure-unless-metal)
+         (c++-mode . akash/eglot-ensure-cpp)
          (python-mode . eglot-ensure)
          (js2-mode . eglot-ensure)
          (web-mode . eglot-ensure)
@@ -191,6 +195,10 @@
   :config
   (add-to-list 'eglot-server-programs
                '((c-mode c++-mode) . ("clangd")))
+  ;; Must sit before the c++-mode entry: eglot takes the first match and
+  ;; metal-mode counts as c++-mode.
+  (add-to-list 'eglot-server-programs
+               '(metal-mode . ("metal-analyzer")))
   (add-to-list 'eglot-server-programs
                '((python-mode) . ("pylsp")))
   (add-to-list 'eglot-server-programs
